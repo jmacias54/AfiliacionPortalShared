@@ -1,0 +1,235 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.mx.profuturo.afiliacion</groupId>
+		<artifactId>AfiliacionPortal</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>AfiliacionPortalWeb</artifactId>
+	<packaging>war</packaging>
+
+
+	<build>
+		<resources>
+			<resource>
+				<!-- el path partiendo del src root del proyecto -->
+				<directory>src/main/resources</directory>
+				<!-- indicar que utilizaremos filtros en el build -->
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/webapp/WEB-INF/public</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy Vue.js frontend content</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/webapp/WEB-INF/public</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${project.parent.basedir}/AfiliacionPortalVueJS/dist/AfiliacionPortal/public/</directory>
+									<includes>
+										<include>css/</include>
+										<include>fonts/</include>
+										<include>img/</include>
+										<include>js/</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${project.parent.basedir}/AfiliacionPortalVueJS/dist/AfiliacionPortal</directory>
+									<includes>
+										<include>favicon.ico</include>
+										<include>index.html</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+	<dependencies>
+
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, 
+			spring-tx) Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mx.profuturo.afiliacion</groupId>
+			<artifactId>AfiliacionPortalModel</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mx.profuturo.afiliacion</groupId>
+			<artifactId>AfiliacionPortalService</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<!-- nombre del perfil, en este caso, el ambiente a configurar -->
+			<id>DEV</id>
+			<properties>
+				<ruta-log-info>/desa/WAS/AfiliacionPortal/INFO.log</ruta-log-info>
+				<ruta-log-debug>/desa/WAS/AfiliacionPortal/DEBUG.log</ruta-log-debug>
+				<consulta.irn>http://172.22.180.167:7903/v1/iib/profuturo/apis/irn/consultaIRN</consulta.irn>
+				<actualiza.irn>http://172.22.180.167:7903/v1/iib/profuturo/apis/irn/actualizaIRN</actualiza.irn>
+				<deposit.files>http://172.22.180.167:7903/v1/iib/profuturo/apis/files/depositFilesB64</deposit.files>
+				<url.autenticacion>http://172.16.48.199:7080/mb/cusp/rest/</url.autenticacion>
+				<aforemovil>http://172.16.48.199:7080/mb/rest/aforemovil/</aforemovil>
+				<!-- <aforemovil.carga.archivo.apertura>http://172.16.48.199:7080/mb/rest/aforemovil/archivoapertura</aforemovil.carga.archivo.apertura>
+				<aforemovil.actualiza.codace>http://172.16.48.199:7080/mb/rest/aforemovil/actualizacodace</aforemovil.actualiza.codace> -->
+				<url.autenticacion.autenticacionUsuario>http://172.16.48.199:7080/mb/cusp/rest/autenticacionUsuario</url.autenticacion.autenticacionUsuario>
+				<url.autenticacion.consultaInformacionUsuario>http://172.16.48.199:7080/mb/cusp/rest/consultaInformacionUsuario</url.autenticacion.consultaInformacionUsuario>
+				<!-- <url.autenticacion.autenticacionUsuario>https://www.proinversion.mx:2143/mb/cusp/rest/autenticacionUsuario</url.autenticacion.autenticacionUsuario> -->
+				<!-- <url.autenticacion.consultaInformacionUsuario>https://www.proinversion.mx:2143/mb/cusp/rest/consultaInformacionUsuario</url.autenticacion.consultaInformacionUsuario> -->
+				<token.autenticacion>Basic cndzcHJheGlzcDpQcjR4MXMjdTVS</token.autenticacion>
+
+			</properties>
+		</profile>
+		<profile>
+			<!-- nombre del perfil, en este caso, el ambiente a configurar -->
+			<id>QA</id>
+			<properties>
+				<ruta-log-info>/qa/WAS/AfiliacionPortal/INFO.log</ruta-log-info>
+				<ruta-log-debug>/qa/WAS/AfiliacionPortal/DEBUG.log</ruta-log-debug>
+				<consulta.irn>/v1/iib/profuturo/apis/irn/consultaIRN</consulta.irn>
+				<actualiza.irn>/v1/iib/profuturo/apis/irn/actualizaIRN</actualiza.irn>
+				<deposit.files>/v1/iib/profuturo/apis/files/depositFilesB64</deposit.files>
+				<aforemovil.carga.archivo.apertura>/mb/rest/aforemovil/archivoapertura</aforemovil.carga.archivo.apertura>
+				<url.autenticacion.autenticacionUsuario>_</url.autenticacion.autenticacionUsuario>
+				<url.autenticacion.consultaInformacionUsuario>_</url.autenticacion.consultaInformacionUsuario>
+				<token.autenticacion>Basic cndzcHJheGlzcDpQcjR4MXMjdTVS</token.autenticacion>
+
+
+			</properties>
+		</profile>
+		<!-- configuración para producción -->
+		<profile>
+			<id>PROD</id>
+			<properties>
+				<ruta-log-info>/prod/WAS/AfiliacionPortal/INFO.log</ruta-log-info>
+				<ruta-log-debug>/prod/WAS/AfiliacionPortal/DEBUG.log</ruta-log-debug>
+				<consulta.irn>http://iibnci.profuturo.mx:7903/v1/iib/profuturo/apis/irn/consultaIRN</consulta.irn>
+				<actualiza.irn>http://iibnci.profuturo.mx:7903/v1/iib/profuturo/apis/irn/actualizaIRN</actualiza.irn>
+				<deposit.files>http://iibnci.profuturo.mx:7903/v1/iib/profuturo/apis/files/depositFilesB64</deposit.files>
+				<aforemovil.carga.archivo.apertura>/mb/rest/aforemovil/archivoapertura</aforemovil.carga.archivo.apertura>
+				<url.autenticacion.autenticacionUsuario>_</url.autenticacion.autenticacionUsuario>
+				<url.autenticacion.consultaInformacionUsuario>_</url.autenticacion.consultaInformacionUsuario>
+				<token.autenticacion>Basic cndzcHJheGlzcDpQcjR4MXMjdTVS</token.autenticacion>
+
+			</properties>
+		</profile>
+	</profiles>
+</project>

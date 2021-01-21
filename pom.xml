@@ -124,7 +124,7 @@
 		<spring.security.version>4.2.15.RELEASE</spring.security.version>
 		<jsonwebtoken.version>0.9.0</jsonwebtoken.version>
 
-		<jackson.version>2.8.9</jackson.version>
+		<jackson.version>2.9.10.7</jackson.version>
 		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
 
 

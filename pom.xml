@@ -120,7 +120,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- dependency version -->
-		<spring.version>4.3.9.RELEASE</spring.version>
+		<spring.version>5.2.20.RELEASE</spring.version>
 		<spring.security.version>4.2.15.RELEASE</spring.security.version>
 		<jsonwebtoken.version>0.9.0</jsonwebtoken.version>
 
